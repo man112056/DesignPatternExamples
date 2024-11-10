@@ -1,12 +1,15 @@
 package com.manish.sampledesignpattern
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), Observer {
+    var textview: TextView? = null
+    var subject = Subject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -16,5 +19,13 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        textview = findViewById(R.id.tv)
+        //
+        subject.addObserver(this)
+        subject.updateData("this is new data")
+    }
+
+    override fun onDataChange(newData: String) {
+        textview?.text = newData
     }
 }
